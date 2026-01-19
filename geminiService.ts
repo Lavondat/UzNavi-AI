@@ -23,7 +23,7 @@ export const generateTripItinerary = async (prefs: UserPreferences): Promise<Iti
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-1.5-flash',
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -88,7 +88,7 @@ export const generateTripItinerary = async (prefs: UserPreferences): Promise<Iti
 export const chatWithUzi = async (message: string, history: {role: 'user' | 'model', parts: {text: string}[]}[]): Promise<string> => {
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-1.5-flash',
       contents: {
         parts: [{ text: `You are "Uzi", a friendly and knowledgeable AI travel assistant for Uzbekistan. 
           Keep your answers short, enthusiastic, and helpful. Mention local gems. 
