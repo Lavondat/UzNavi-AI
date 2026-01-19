@@ -24,10 +24,12 @@ jobs:
 
     - name: Build
       run: npm run build -- --base /${GITHUB_REPOSITORY#*/}/
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GH_PAT }}
         publish_dir: ./dist
