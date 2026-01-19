@@ -25,33 +25,6 @@ export const generateTripItinerary = async (prefs: UserPreferences): Promise<Iti
     const response = await ai.models.generateContent({
       model: 'gemini-1.5-flash',
       contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              day: { type: Type.NUMBER },
-              summary: { type: Type.STRING },
-              stops: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    name: { type: Type.STRING },
-                    description: { type: Type.STRING },
-                    category: { type: Type.STRING },
-                    reasonForInclusion: { type: Type.STRING }
-                  },
-                  required: ["name", "description", "category"]
-                }
-              }
-            },
-            required: ["day", "summary", "stops"]
-          }
-        }
-      }
     });
 
     const data = JSON.parse(response.text || '[]');
@@ -88,15 +61,13 @@ export const generateTripItinerary = async (prefs: UserPreferences): Promise<Iti
 export const chatWithUzi = async (message: string, history: {role: 'user' | 'model', parts: {text: string}[]}[]): Promise<string> => {
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: {
         parts: [{ text: `You are "Uzi", a friendly and knowledgeable AI travel assistant for Uzbekistan. 
           Keep your answers short, enthusiastic, and helpful. Mention local gems. 
           Current user message: ${message}` }]
       },
-      config: {
-        systemInstruction: "You are Uzi, the friendly face of Uzbekistan tourism. You help users plan their trips, explain culture, and provide advice on etiquette, food, and transport."
-      }
+
     });
     return response.text || "I'm sorry, I couldn't process that. Try again!";
   } catch (error) {
